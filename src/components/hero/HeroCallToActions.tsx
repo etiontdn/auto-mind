@@ -18,7 +18,7 @@ export function HeroCallToActions() {
             <Button
                 size="lg"
                 variant="outline"
-                className="border-slate-800 text-slate-300 hover:bg-slate-900 gap-2"
+                className="border-slate-800 text-slate-600 hover:bg-slate-900 hover:text-slate-300 gap-2"
             >
                 <RiCarFill size={20} />
                 Explorar Modelos
