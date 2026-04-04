@@ -1,12 +1,11 @@
 import { HeroBadge } from "./hero/HeroBadge";
 import { HeroTitulo } from "./hero/HeroTitulo";
 import { HeroSubtitulo } from "./hero/HeroSubtitulo";
-import { HeroCallToActions } from "./hero/HeroCallToActions";
-import { HeroFeatures } from "./hero/HeroFeatures";
+import { HeroForm } from "./hero/HeroForm";
 
 export function Hero() {
     return (
-        <section className="relative overflow-hidden bg-slate-950 py-20 lg:py-32">
+        <section className="relative overflow-hidden min-h-screen bg-slate-950 py-20 lg:py-32">
             {/* Efeito Visual de Fundo */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-5xl bg-blue-600/10 blur-[140px] rounded-full" />
 
@@ -14,8 +13,7 @@ export function Hero() {
                 <HeroBadge />
                 <HeroTitulo />
                 <HeroSubtitulo />
-                <HeroCallToActions />
-                <HeroFeatures />
+                <HeroForm />
             </div>
         </section>
     );
