@@ -112,12 +112,6 @@ export function HeroModal({ isOpen, onClose, salary, downPayment }: HeroModalPro
                                     <p>Parcela segura que não compromete sua renda mensal</p>
                                 </div>
                                 <div className="flex items-center gap-3 text-sm text-slate-300">
-                                    <div className="p-1 rounded-md bg-blue-500/20 text-blue-400">
-                                        <RiCarLine size={16} />
-                                    </div>
-                                    <p>Acesso a categorias como Sedans Premium ou SUVs Compactos</p>
-                                </div>
-                                <div className="flex items-center gap-3 text-sm text-slate-300">
                                     <div className="p-1 rounded-md bg-purple-500/20 text-purple-400">
                                         <RiBankCardLine size={16} />
                                     </div>
