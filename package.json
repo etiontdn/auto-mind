@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@fontsource-variable/jetbrains-mono": "^5.2.8",
+        "@google/generative-ai": "^0.24.1",
         "@remixicon/react": "^4.9.0",
         "@tailwindcss/vite": "^4.2.2",
         "class-variance-authority": "^0.7.1",
