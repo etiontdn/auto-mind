@@ -32,6 +32,7 @@ export function HeroModal({ isOpen, onClose, salary, downPayment }: HeroModalPro
     const [isAnalyzing, setIsAnalyzing] = useState(true);
     const [result, setResult] = useState<RecommendationResult | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
         if (isOpen) {
@@ -59,6 +60,7 @@ export function HeroModal({ isOpen, onClose, salary, downPayment }: HeroModalPro
             // Limpa o estado quando fecha para a próxima vez
             setResult(null);
             setError(null);
+            setShowSuccess(false);
         }
     }, [isOpen, salary, downPayment]);
 
@@ -114,70 +116,90 @@ export function HeroModal({ isOpen, onClose, salary, downPayment }: HeroModalPro
                             <Button onClick={onClose} variant="outline" className="border-white/10">Tentar Novamente</Button>
                         </div>
                     ) : result ? (
-                        <div className="animate-in slide-in-from-bottom-4 duration-500">
-                            <p className="text-slate-300 mb-6 font-medium leading-relaxed">
-                                {result.texto_resumo}
-                            </p>
+                        showSuccess ? (
+                            <div className="py-12 flex flex-col items-center justify-center text-center animate-in zoom-in-95 duration-500 min-h-[300px]">
+                                <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-emerald-500/20 text-emerald-400 mb-6">
+                                    <RiShieldCheckLine size={40} />
+                                </div>
+                                <h3 className="text-2xl font-bold text-white mb-2">Simulação Concluída! 🎉</h3>
+                                <p className="text-slate-400 max-w-sm mx-auto mb-8">
+                                    Como este é um site demonstrativo do <strong className="text-white">Auto-Mind</strong>, finalizamos a jornada por aqui.
+                                    <br /><br />
+                                    Numa aplicação real, a pré-reserva desse <span className="text-emerald-400 font-semibold">{result.carro_indicado.marca} {result.carro_indicado.modelo}</span> e os dados seriam enviados diretamente para o CRM da equipe de ponta!
+                                </p>
+                                <Button onClick={onClose} className="bg-slate-800 hover:bg-slate-700 hover:text-white text-slate-300 font-semibold border border-white/10">
+                                    Fechar e voltar ao início
+                                </Button>
+                            </div>
+                        ) : (
+                            <div className="animate-in slide-in-from-bottom-4 duration-500">
+                                <p className="text-slate-300 mb-6 font-medium leading-relaxed">
+                                    {result.texto_resumo}
+                                </p>
 
-                            <div className="bg-slate-950/50 rounded-xl p-6 border border-white/5 mb-6 relative overflow-hidden">
-                                <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 blur-[40px] pointer-events-none" />
+                                <div className="bg-slate-950/50 rounded-xl p-6 border border-white/5 mb-6 relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-40 h-40 bg-blue-500/10 blur-[40px] pointer-events-none" />
 
-                                <div className="flex items-start justify-between gap-4 mb-4">
-                                    <div>
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-md uppercase tracking-wider">
-                                                Recomendação Ideal
-                                            </span>
-                                            <span className="text-sm text-slate-400 border border-white/10 px-2 py-1 rounded-md">
-                                                Ano: {result.carro_indicado.ano}
-                                            </span>
+                                    <div className="flex items-start justify-between gap-4 mb-4">
+                                        <div>
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 text-xs font-bold rounded-md uppercase tracking-wider">
+                                                    Recomendação Ideal
+                                                </span>
+                                                <span className="text-sm text-slate-400 border border-white/10 px-2 py-1 rounded-md">
+                                                    Ano: {result.carro_indicado.ano}
+                                                </span>
+                                            </div>
+                                            <h3 className="text-2xl sm:text-3xl font-black text-white mb-1 tracking-tight">
+                                                {result.carro_indicado.marca} {result.carro_indicado.modelo}
+                                            </h3>
                                         </div>
-                                        <h3 className="text-2xl sm:text-3xl font-black text-white mb-1 tracking-tight">
-                                            {result.carro_indicado.marca} {result.carro_indicado.modelo}
-                                        </h3>
+                                        <div className="p-3 bg-white/5 rounded-full text-blue-400 shrink-0">
+                                            <RiCarLine size={28} />
+                                        </div>
                                     </div>
-                                    <div className="p-3 bg-white/5 rounded-full text-blue-400 shrink-0">
-                                        <RiCarLine size={28} />
+
+                                    <div className="flex items-end gap-3 mb-6 pb-6 border-b border-white/5">
+                                        <h4 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">
+                                            {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(precoReal)}
+                                        </h4>
+                                        <span className="text-slate-500 mb-1 font-medium">Preço à vista / Base Tabela</span>
+                                    </div>
+
+                                    <div>
+                                        <h4 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
+                                            <RiSparklingLine size={16} className="text-blue-400" />
+                                            Por que escolhemos este?
+                                        </h4>
+                                        <p className="text-slate-400 text-sm leading-relaxed bg-white/5 p-4 rounded-lg border border-white/5">
+                                            {result.carro_indicado.motivo_recomendacao}
+                                        </p>
                                     </div>
                                 </div>
 
-                                <div className="flex items-end gap-3 mb-6 pb-6 border-b border-white/5">
-                                    <h4 className="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">
-                                        {new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(precoReal)}
-                                    </h4>
-                                    <span className="text-slate-500 mb-1 font-medium">Preço à vista / Base Tabela</span>
+                                <div className="space-y-3 mb-8">
+                                    <div className="flex items-center gap-3 text-sm text-slate-300 bg-slate-900/50 p-3 rounded-lg border border-emerald-500/10">
+                                        <div className="p-1 rounded-md bg-emerald-500/20 text-emerald-400">
+                                            <RiShieldCheckLine size={16} />
+                                        </div>
+                                        <p>Este valor se enquadra perfeitamente na sua capacidade de financiamento.</p>
+                                    </div>
+                                    <div className="flex items-center gap-3 text-sm text-slate-300 bg-slate-900/50 p-3 rounded-lg border border-purple-500/10">
+                                        <div className="p-1 rounded-md bg-purple-500/20 text-purple-400">
+                                            <RiBankCardLine size={16} />
+                                        </div>
+                                        <p>Alta probabilidade de aprovação com o valor de R$ {downPayment} de entrada.</p>
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <h4 className="text-sm font-bold text-white mb-2 flex items-center gap-2">
-                                        <RiSparklingLine size={16} className="text-blue-400" />
-                                        Por que escolhemos este?
-                                    </h4>
-                                    <p className="text-slate-400 text-sm leading-relaxed bg-white/5 p-4 rounded-lg border border-white/5">
-                                        {result.carro_indicado.motivo_recomendacao}
-                                    </p>
-                                </div>
+                                <Button
+                                    onClick={() => setShowSuccess(true)}
+                                    className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold h-12 text-base shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.02]"
+                                >
+                                    Tenho interesse neste modelo
+                                </Button>
                             </div>
-
-                            <div className="space-y-3 mb-8">
-                                <div className="flex items-center gap-3 text-sm text-slate-300 bg-slate-900/50 p-3 rounded-lg border border-emerald-500/10">
-                                    <div className="p-1 rounded-md bg-emerald-500/20 text-emerald-400">
-                                        <RiShieldCheckLine size={16} />
-                                    </div>
-                                    <p>Este valor se enquadra perfeitamente na sua capacidade de financiamento.</p>
-                                </div>
-                                <div className="flex items-center gap-3 text-sm text-slate-300 bg-slate-900/50 p-3 rounded-lg border border-purple-500/10">
-                                    <div className="p-1 rounded-md bg-purple-500/20 text-purple-400">
-                                        <RiBankCardLine size={16} />
-                                    </div>
-                                    <p>Alta probabilidade de aprovação com o valor de R$ {downPayment} de entrada.</p>
-                                </div>
-                            </div>
-
-                            <Button className="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold h-12 text-base shadow-lg shadow-blue-500/20 transition-all hover:scale-[1.02]">
-                                Tenho interesse neste modelo
-                            </Button>
-                        </div>
+                        )
                     ) : null}
                 </div>
             </div>
